@@ -1,84 +1,117 @@
-# Sauce Demo Test Automation
+# Salesforce Automation Testing Framework
 
-This project contains automated tests for the Sauce Demo website (https://www.saucedemo.com/) using Puppeteer and Jest.
+This project is an automated testing framework for Salesforce, built using Playwright and JavaScript. It provides a robust structure for creating and maintaining end-to-end tests for Salesforce applications.
 
 ## Project Structure
 
 ```
-saucedemo-testing/
-│
-├── config/              # Configuration files
-│   └── testData.js      # Test data and user credentials
-│
+salesforce-automation/
+├── config/               # Configuration files
+│   └── testData.js      # Test data and environment configurations
 ├── pages/               # Page Object Models
-│   └── LoginPage.js     # Login page interactions
-│
 ├── tests/               # Test files
-│   └── login.test.js    # Login functionality tests
-│
-├── utils/               # Utility helper functions
-│   ├── setupDirectories.js  # Directory setup utility
-│   └── testHelper.js    # Browser and page setup helpers
-│
-├── reports/             # Test reports
-│   └── screenshots/     # Screenshots captured during tests
-│
-├── jest.config.js       # Jest configuration
-└── package.json         # Project dependencies
+├── utils/               # Utility functions and helpers
+├── reports/             # Test execution reports
+└── node_modules/        # Dependencies
 ```
 
-## Test Cases for Login Functionality
+## Features
 
-1. TC001: Successful login with standard_user
-2. TC002: Failed login with locked_out_user
-3. TC003: Login with problem_user (may have UI issues)
-4. TC004: Login with performance_glitch_user (may experience delays)
-5. TC005: Login with error_user
-6. TC006: Login with visual_user
-7. TC007: Login with invalid username
-8. TC008: Login with invalid password
-9. TC009: Login with empty username
-10. TC010: Login with empty password
-11. TC011: Login with empty username and password
-12. TC012: Case sensitivity check for username
-13. TC013: Case sensitivity check for password
-14. TC014: Special characters in credentials handling
-15. TC015: XSS attempt in login form
-16. TC016: Login button functionality
-17. TC017: Multiple login attempts behavior
-18. TC018: Login page UI elements verification
+- Page Object Model design pattern
+- Configuration management for multiple environments
+- Salesforce-specific selectors and utilities
+- Automated login and navigation
+- Screenshot capture on test failure
+- HTML report generation
+- Cross-browser testing support
 
-## Available Users
+## Prerequisites
 
-| Username | Password | Description |
-|----------|----------|-------------|
-| standard_user | secret_sauce | Standard user with all features |
-| locked_out_user | secret_sauce | User that has been locked out |
-| problem_user | secret_sauce | User with UI issues while using the app |
-| performance_glitch_user | secret_sauce | User that experiences performance issues |
-| error_user | secret_sauce | User that encounters errors |
-| visual_user | secret_sauce | User that experiences visual glitches |
+- Node.js (v14 or higher)
+- npm (v6 or higher)
+- A Salesforce organization account
+- Appropriate permissions in Salesforce
 
-## Getting Started
+## Installation
 
-1. Clone this repository
+1. Clone the repository:
+```bash
+git clone <repository-url>
+cd salesforce-automation
+```
+
 2. Install dependencies:
-   ```
-   npm install
-   ```
-3. Run the tests:
-   ```
-   npm test
-   ```
-4. View the test report in the `reports` directory
+```bash
+npm install
+```
 
-## Environment Setup
+3. Set up environment variables:
+Create a `.env` file in the root directory and add your Salesforce credentials:
+```
+SALESFORCE_USERNAME=your-username
+SALESFORCE_PASSWORD=your-password
+SALESFORCE_URL=your-salesforce-url
+```
 
-- Node.js 14 or higher
-- NPM or Yarn
+## Running Tests
 
-## Notes
+Run all tests:
+```bash
+npm test
+```
 
-- Screenshots are automatically taken for error scenarios and some test cases
-- Reports are generated in HTML format in the reports directory
-- Tests run with visible browser by default (headless mode can be enabled in testHelper.js)
+Run specific test file:
+```bash
+npm test -- tests/login.test.js
+```
+
+Run tests in headed mode:
+```bash
+npm run test:headed
+```
+
+## Test Reports
+
+Test reports are generated in the `reports` directory after each test run. Open `reports/index.html` in a browser to view the detailed test results.
+
+## Writing Tests
+
+Example test structure:
+```javascript
+const { test } = require('@playwright/test');
+const LoginPage = require('../pages/LoginPage');
+
+test('should login to Salesforce successfully', async ({ page }) => {
+  const loginPage = new LoginPage(page);
+  await loginPage.navigate();
+  await loginPage.login(process.env.SALESFORCE_USERNAME, process.env.SALESFORCE_PASSWORD);
+  // Add assertions here
+});
+```
+
+## Best Practices
+
+1. Use Page Object Model for better maintainability
+2. Keep selectors in separate configuration files
+3. Use meaningful test descriptions
+4. Add appropriate assertions
+5. Handle dynamic elements properly
+6. Use environment variables for sensitive data
+
+## Contributing
+
+1. Create a feature branch
+2. Commit your changes
+3. Push to the branch
+4. Create a Pull Request
+
+## Troubleshooting
+
+Common issues and solutions:
+- **Login Failures**: Verify credentials and URL in environment variables
+- **Element Not Found**: Check selectors and timing issues
+- **Test Timeouts**: Adjust timeout settings in configuration
+
+## License
+
+This project is licensed under the MIT License - see the LICENSE file for details.
