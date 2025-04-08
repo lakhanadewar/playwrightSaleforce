@@ -1,0 +1,22 @@
+{
+  "name": "saucedemo-testing",
+  "version": "1.0.0",
+  "description": "Automated testing for Sauce Demo website",
+  "main": "index.js",
+  "scripts": {
+    "test": "jest --forceExit"
+  },
+  "keywords": [
+    "puppeteer",
+    "jest",
+    "testing",
+    "automation"
+  ],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "jest": "^29.5.0",
+    "jest-html-reporter": "^3.10.0",
+    "puppeteer": "^19.11.0"
+  }
+}
